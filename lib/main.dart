@@ -209,6 +209,43 @@ class _ListPageState extends State<ListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Center();
+    return ListView.builder(
+      itemBuilder: (BuildContext context, int index) {
+        var memo = _memos[index];
+        return Container(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(color: Colors.black38),
+              ),
+            ),
+            child: ListItem(memo: memo)
+        ),
+      },
+      itemCount: _memos.length,
+    );
+  }
+}
+
+class ListItem extends StatefulWidget {
+  const ListItem({
+    NCMBObject memo required,
+    Key? key}) : super(key: key;
+  @override
+  State<ListItem> createState() => _ListItemState();
+}
+
+class _ListItemState extends State<ListItem> {
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+        leading: Image(),
+        title: Text(meme.get('createDate')),
+        subtitle: Text(memo.get('title')), 
+          overflow: TextOverflow.ellipsis, maxLines: 2
+        ),
+        onTap: () {
+          // 記事をタップした時の処理
+        },
+    ))
   }
 }
