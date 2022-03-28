@@ -1,19 +1,20 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:ncmb/ncmb.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+// 1. NCMB SDKを読み込みます
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
-  NCMB(dotenv.env['APPLICATION_KEY'] as String,
-      dotenv.env['CLIENT_KEY'] as String);
-  var user = await NCMBUser.currentUser();
+  // 2. NCMBの初期化
+
+  // 3. ログインユーザーの取得
+  var user = null;
   if (user == null) {
-    NCMBUser.loginAsAnonymous();
+    // 4. 未ログインだっら匿名認証実行
   }
   runApp(const CameraMemoApp());
 }
@@ -86,15 +87,11 @@ class _FormPageState extends State<FormPage> {
   }
 
   Future<void> _save() async {
+    // ランダムなファイル名
     var fileName = "${const Uuid().v4()}.$_extension";
-    var acl = NCMBAcl();
-    var user = await NCMBUser.currentUser();
-    acl.setUserReadAccess(user!, true);
-    acl.setUserWriteAccess(user, true);
-    await NCMBFile.upload(fileName, _image, acl: acl);
-    var obj = NCMBObject('Memo');
-    obj.sets({'text': _text, 'fileName': fileName, 'acl': acl});
-    await obj.save();
+    // 5. ACL（アクセス権限）作成
+    // 6. ファイルアップロード
+    // 7. メモデータを作成して保存
     done();
   }
 
@@ -191,7 +188,9 @@ class ListPage extends StatefulWidget {
 }
 
 class _ListPageState extends State<ListPage> {
-  List<NCMBObject> _memos = [];
+  // 8. メモデータを入れる変数
+  List<Object> _memos = [];
+  
   @override
   void initState() {
     super.initState();
@@ -199,11 +198,9 @@ class _ListPageState extends State<ListPage> {
   }
 
   Future<void> getMemos() async {
-    var query = NCMBQuery('Memo');
-    query.limit(100);
-    var ary = await query.fetchAll();
+    // 9. メモデータを検索
     setState(() {
-      _memos = ary as List<NCMBObject>;
+      // 10. 取得したら _memos に入れる
     });
   }
 
@@ -228,8 +225,8 @@ class _ListPageState extends State<ListPage> {
 
 class ListItem extends StatefulWidget {
   const ListItem({
-    NCMBObject memo required,
-    Key? key}) : super(key: key;
+    // 11. メモを渡す
+    Key? key}) : super(key: key);
   @override
   State<ListItem> createState() => _ListItemState();
 }
@@ -239,8 +236,8 @@ class _ListItemState extends State<ListItem> {
   Widget build(BuildContext context) {
     return ListTile(
         leading: Image(),
-        title: Text(meme.get('createDate')),
-        subtitle: Text(memo.get('title')), 
+        title: "", // 12．メモの作成日時
+        subtitle: Text(""), // 13. メモのタイトル
           overflow: TextOverflow.ellipsis, maxLines: 2
         ),
         onTap: () {
