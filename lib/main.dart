@@ -287,9 +287,9 @@ class _ListItemState extends State<ListItem> {
               color: Colors.blue,
               size: 50,
             ),
-      title: Text(''), // 12．メモの作成日時
+      title: Text(''), // 15．メモの作成日時
       subtitle: Text(
-        '', // 13. メモのタイトル
+        '', // 16. メモのタイトル
         overflow: TextOverflow.ellipsis,
         maxLines: 2,
       ),
